@@ -1,12 +1,10 @@
 using System;
 using System.Linq;
 
-namespace Application.Helpers.IdNumber
+namespace Application.Helpers
 {
-
     public static class IdNumber
     {
-
         public enum Gender
         {
             Male,
@@ -33,7 +31,7 @@ namespace Application.Helpers.IdNumber
                 return false;
             }
 
-            // Get check digit to compare
+            // Get check digits to compare
             var (idCheckDigit, checkDigitVerificationValue) = GetCheckDigits(idCharArray);
 
             // Compare check digits
@@ -82,7 +80,7 @@ namespace Application.Helpers.IdNumber
         private static (int, int) GetCheckDigits(int[] idCharArray)
         {
             int idCheckDigit = idCharArray[12];
-            int checkDigitVerificationValue = (10 - (((idCharArray.Where((value, index) => index % 2 == 1).ToArray().Take(12).ToArray().Sum()) + ((int.Parse(string.Join("", idCharArray.Where((value, index) => index % 2 == 0).ToArray())) * 2).ToString().Select(x => Convert.ToInt32(x) - 48).ToArray().Sum())) % 10)) % 10;
+            int checkDigitVerificationValue = (10 - ((idCharArray.Where((value, index) => index % 2 == 1).ToArray().Take(12).ToArray().Sum() + (int.Parse(string.Join("", idCharArray.Where((value, index) => index % 2 == 0).ToArray())) * 2).ToString().Select(x => Convert.ToInt32(x) - 48).ToArray().Sum()) % 10)) % 10;
 
             // If checkDigitVerificationValue has two digits, use the last digit
             if (checkDigitVerificationValue > 9)
