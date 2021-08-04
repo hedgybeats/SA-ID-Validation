@@ -3,8 +3,10 @@ using System.Linq;
 
 namespace Application.Helpers
 {
+
     public static class IdNumber
     {
+
         public enum Gender
         {
             Male,
@@ -31,7 +33,7 @@ namespace Application.Helpers
                 return false;
             }
 
-            // Get check digits to compare
+            // Get check digit to compare
             var (idCheckDigit, checkDigitVerificationValue) = GetCheckDigits(idCharArray);
 
             // Compare check digits
@@ -53,14 +55,48 @@ namespace Application.Helpers
         private static bool ValidateDOB(int[] idCharArray)
         {
             var month = int.Parse(idCharArray[2].ToString() + idCharArray[3].ToString());
-            if (month > 12 || month < 1)
+            var day = int.Parse(idCharArray[4].ToString() + idCharArray[5].ToString());
+
+            // Make sure day and month are valid
+            if (day > 31 || day < 1 || month > 12 || month < 1)
             {
                 return false;
             }
 
-            var day = int.Parse(idCharArray[4].ToString() + idCharArray[5].ToString());
-            if (day > 31 || day < 1)
+            //  Apr, Jun, Sep, Nov must have 30
+            if ((month == 04 || month == 06 ||
+                month == 09 || month == 11) && day !> 30)
             {
+                return false;
+            }
+
+            //// Jan, Mar, May, July, Aug, Oct, Dec must have 31 days
+            //if ((month == 01 || month == 03 || month == 05 ||
+            //    month == 07 || month == 08 || month == 10 || month == 12) && day !<= 31)
+            //{
+            //    return false;
+            //}
+
+            // Feb must have 28 days or 29 if leap year
+            if ((month == 02) && day !> 29)
+            {
+                return false;
+            }
+
+            // If Feb and day is 29, make sure is leap year
+            if ((month == 02) && day == 29)
+            {
+                int year = int.Parse(idCharArray[0].ToString() + idCharArray[1].ToString());
+
+                // Convert to 4 digit year
+                year += year > (DateTime.Today.Year % 100) ? 1900 : 2000;
+
+                // Check if is leap year
+                if (year % 400 == 0 || (year % 4 == 0 && year % 100 != 0))
+                {
+                    return true;
+                }
+
                 return false;
             }
 
