@@ -63,19 +63,12 @@ namespace Application.Helpers
                 return false;
             }
 
-            //  Apr, Jun, Sep, Nov must not have more than 30
+            //  Apr, Jun, Sep, Nov must not have more than 30 days
             if ((month == 04 || month == 06 ||
                 month == 09 || month == 11) && day > 30)
             {
                 return false;
             }
-
-            //// Jan, Mar, May, July, Aug, Oct, Dec must have 31 days
-            //if ((month == 01 || month == 03 || month == 05 ||
-            //    month == 07 || month == 08 || month == 10 || month == 12) && day !<= 31)
-            //{
-            //    return false;
-            //}
 
             // Feb must not have more than 29 days
             if ((month == 02) && day > 29)
