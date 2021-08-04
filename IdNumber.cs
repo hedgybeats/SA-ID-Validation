@@ -63,9 +63,9 @@ namespace Application.Helpers
                 return false;
             }
 
-            //  Apr, Jun, Sep, Nov must have 30
+            //  Apr, Jun, Sep, Nov must not have more than 30
             if ((month == 04 || month == 06 ||
-                month == 09 || month == 11) && day !> 30)
+                month == 09 || month == 11) && day > 30)
             {
                 return false;
             }
@@ -77,8 +77,8 @@ namespace Application.Helpers
             //    return false;
             //}
 
-            // Feb must have 28 days or 29 if leap year
-            if ((month == 02) && day !> 29)
+            // Feb must not have more than 29 days
+            if ((month == 02) && day > 29)
             {
                 return false;
             }
